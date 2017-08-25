@@ -55,13 +55,15 @@ void computeMatricesFromInputs(){
 	verticalAngle   += mouseSpeed * float( 768/2 - ypos );
 
 	// Direction : Spherical coordinates to Cartesian coordinates conversion
+	// 垂直角度, 横向的角度, 都是以鼠标偏离屏幕中心点来计算的, 原本视线是面向-Z的， 和-z重合, 随着鼠标的移动, 所以horizontalAngle就是变动后的z与原来的z轴的水平夹角
+	// 相同的, 与z轴的垂直夹角就是verticalAngle 
 	glm::vec3 direction(
 		cos(verticalAngle) * sin(horizontalAngle), 
 		sin(verticalAngle),
 		cos(verticalAngle) * cos(horizontalAngle)
 	);
-	
-	// Right vector
+		
+	// Right vector, 相对于视线的水平垂直的夹角
 	glm::vec3 right = glm::vec3(
 		sin(horizontalAngle - 3.14f/2.0f), 
 		0,
@@ -90,7 +92,7 @@ void computeMatricesFromInputs(){
 
 	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
-	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
+	// Projection matrix : 45� Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
 	// Camera matrix
 	ViewMatrix       = glm::lookAt(
